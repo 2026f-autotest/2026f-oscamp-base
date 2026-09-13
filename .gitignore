@@ -20,3 +20,9 @@ Thumbs.db
 # Debug information
 *.dSYM/
 *.pdb
+
+# Course automation outputs and local student roster
+/tmp/
+/rank/
+/students.txt
+__pycache__/

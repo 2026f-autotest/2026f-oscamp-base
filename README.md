@@ -1,151 +1,60 @@
-# OS Camp - Rust & OS Advanced Experiments
+# 2026f 基础阶段 — Rust 进阶 & OS 入门
 
-A Rust advanced and operating system introductory exercise repository in the style of [rustlings](https://github.com/rust-lang/rustlings).
-Learn Rust concurrency programming, async programming, `no_std` development, and operating system core concepts through completing code and passing tests.
+基于 [LearningOS 2026s 课程仓库](https://github.com/LearningOS/2026s-oscamp-base-2026s-oscamp-base-exercise-oscamp-base-experiment)，由 [2026f-autotest](https://github.com/2026f-autotest) 统一分配学员仓库、运行真实测试并上传 OpenCamp。
 
-## Prerequisites
+**课程编号：2074 · 24 项练习 · 总分：100**
 
-- Rust toolchain (stable, >= 1.75)
-- Linux environment: most exercises target x86_64; **Module 4 (context switching) only supports riscv64** and requires a riscv64 environment or QEMU user-mode emulation
+## 学员提交流程
 
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
+1. 在 OpenCamp 加入本阶段训练营，绑定自己的 GitHub 登录账号。
+2. 向维护者提供 GitHub 登录名，接受 `2026f-autotest/2026f-oscamp-base-用户名` 的仓库邀请。
+3. 克隆分配的仓库，在 `main` 完成实验并 push。
+4. 在 Actions 查看各项测试、原始日志、分数和上传结果，再核对 OpenCamp 学员成绩页面。
 
-## Exercise Structure
+**学员无需 Fork、安装 GitHub CLI 或填写课程 Token。** 身份由维护者绑定，Token 由组织 Secret 共享。
 
-**6 modules, 23 exercises** in total, from easy to advanced:
+详细步骤见[学员指南](docs/STUDENT_GUIDE.md)。维护者见[建仓与维护流程](docs/MAINTAINER.md)。
 
-### Module 1: Concurrency (Synchronous) — `01_concurrency_sync/`
+## 计分规则
 
-| # | Exercise | Concepts |
-|---|----------|----------|
-| 1 | `01_thread_spawn` | `thread::spawn`, `move` closures, `join` |
-| 2 | `02_mutex_counter` | `Arc<Mutex<T>>`, shared state concurrency |
-| 3 | `03_channel` | `mpsc::channel`, multiple producer pattern |
-| 4 | `04_process_pipe` | `Command`, `Stdio::piped()`, process pipes |
+沿用往期各项练习的权重，每项全部通过才获得该项分数。每次提交重新计算全部练习，上传本次实际总分；不是按提交次数累加。部分完成也会上传测得的分数。编译或测试未通过、超时的练习记 0 分；环境准备失败、缺少结果或结果不完整时不上传。
 
-### Module 2: no_std Development — `02_no_std_dev/`
+| 练习 | 分值 |
+| --- | ---: |
+| `thread_spawn` | 3 |
+| `mutex_counter` | 4 |
+| `channel` | 4 |
+| `process_pipe` | 4 |
+| `mem_primitives` | 4 |
+| `bump_allocator` | 5 |
+| `free_list_allocator` | 5 |
+| `syscall_wrapper` | 5 |
+| `fd_table` | 5 |
+| `atomic_counter` | 4 |
+| `atomic_ordering` | 4 |
+| `spinlock` | 4 |
+| `spinlock_guard` | 4 |
+| `rwlock` | 5 |
+| `stack_coroutine` | 6 |
+| `green_threads` | 6 |
+| `basic_future` | 4 |
+| `tokio_tasks` | 3 |
+| `async_channel_ex` | 3 |
+| `select_timeout` | 4 |
+| `pte_flags` | 3 |
+| `page_table_walk` | 4 |
+| `multi_level_pt` | 4 |
+| `tlb_sim` | 3 |
 
-| # | Exercise | Concepts |
-|---|----------|----------|
-| 1 | `01_mem_primitives` | `no_std` memory primitives: memcpy, memset, memmove, strlen, strcmp |
-| 2 | `02_bump_allocator` | `GlobalAlloc` trait, Bump allocator, CAS-based thread safety |
-| 3 | `03_free_list_allocator` | Free-list allocator, intrusive linked list, first-fit strategy |
-| 4 | `04_syscall_wrapper` | Cross-arch syscall ABI (x86_64/aarch64/riscv64), inline assembly |
-| 5 | `05_fd_table` | File descriptor table, `Arc<dyn File>`, fd reuse strategy |
+Actions 中测试作业变红表示还有未完成练习；单独的 **Save measured score and upload to OpenCamp** 作业显示成绩同步是否成功。日志出现 `OpenCamp accepted the score (result=1).` 才表示接口接受成绩。
 
-### Module 3: OS Concurrency Advanced — `03_os_concurrency/`
+成绩明细同时保存在运行附件和学员仓库的 `gh-pages:course-2074.json`，无需启用 GitHub Pages。
 
-| # | Exercise | Concepts |
-|---|----------|----------|
-| 1 | `01_atomic_counter` | `AtomicU64`, `fetch_add`, CAS loop |
-| 2 | `02_atomic_ordering` | Memory ordering, Release-Acquire, `OnceCell` |
-| 3 | `03_spinlock` | Spinlock implementation, `compare_exchange`, `spin_loop` |
-| 4 | `04_spinlock_guard` | RAII guard, `Deref`/`DerefMut`/`Drop` |
-| 5 | `05_rwlock` | Writer-priority read-write lock from scratch (no `std::sync::RwLock`) |
+## 文档与来源
 
-### Module 4: Context Switching — `04_context_switch/` (riscv64 only)
+- [学员指南](docs/STUDENT_GUIDE.md)
+- [维护流程](docs/MAINTAINER.md)
+- [验证记录](docs/VALIDATION.md)
+- [2026s 上游原始说明](docs/UPSTREAM-2026s.md)
 
-| # | Exercise | Concepts |
-|---|----------|----------|
-| 1 | `01_stack_coroutine` | Callee-saved registers, stack frames, context switching |
-| 2 | `02_green_threads` | Green thread scheduler, cooperative scheduling, yield |
-
-Module 4 only runs on **riscv64**. Run `./check.sh` or use the `oscamp` CLI as with the rest of the repository — no separate scripts needed. See `exercises/04_context_switch/README.md` for details.
-
-### Module 5: Async Programming — `05_async_programming/`
-
-| # | Exercise | Concepts |
-|---|----------|----------|
-| 1 | `01_basic_future` | Manual implementation of `Future` trait, `Poll`, `Waker` |
-| 2 | `02_tokio_tasks` | `tokio::spawn`, `JoinHandle`, concurrent tasks |
-| 3 | `03_async_channel` | `tokio::sync::mpsc`, async producer-consumer |
-| 4 | `04_select_timeout` | `tokio::select!`, timeout control, race execution |
-
-### Module 6: Page Tables — `06_page_table/`
-
-| # | Exercise | Concepts |
-|---|----------|----------|
-| 1 | `01_pte_flags` | SV39 PTE bit layout, bit operations to construct/parse page table entries |
-| 2 | `02_page_table_walk` | Single-level page tables, VPN/offset splitting, address translation, page faults |
-| 3 | `03_multi_level_pt` | SV39 three-level page tables, page table walk, huge pages (2MB) mapping |
-| 4 | `04_tlb_sim` | TLB lookup/insert/FIFO replacement, flush (all/by page/by ASID), MMU simulation |
-
-## Quick Start
-
-```bash
-# 1. Clone repository
-git clone <repo-url> && cd oscamp-base-experiment
-
-# 2. Build interactive CLI tool
-cargo build -p oscamp-cli
-
-# 3. Start interactive exercise mode (recommended)
-./target/debug/oscamp watch
-```
-
-## Interactive CLI Tool (`oscamp`)
-
-Built-in interactive terminal tool similar to rustlings, supporting real-time file watching and progress tracking:
-
-```bash
-oscamp              # Start interactive watch mode (default)
-oscamp watch        # Same as above
-oscamp list         # View completion status of all exercises
-oscamp check        # Check all exercises in batch
-oscamp run <pkg>    # Run tests for specified exercise
-oscamp hint <pkg>   # View exercise hint
-oscamp help         # Show help
-```
-
-### Watch Mode Features
-
-- **Automatic file change detection**: Automatically re-run tests after saving files
-- **Auto-jump**: Automatically jump to next unfinished exercise after current one passes
-- **Real-time progress bar**: Show overall completion progress
-- **Shortcuts**:
-  - `h` — View hint for current exercise
-  - `l` — View list of all exercises
-  - `n` / `p` — Next / Previous exercise
-  - `r` / `Enter` — Re-run tests
-  - `q` / `Esc` — Quit
-
-### Manual Execution
-
-```bash
-# Run tests for a specific exercise
-cargo test -p thread_spawn
-
-# View detailed output
-cargo test -p thread_spawn -- --nocapture
-
-# Check all exercises
-cargo test --workspace
-```
-
-## Workflow
-
-1. **Start**: Run `./target/debug/oscamp watch` to enter interactive mode
-2. **Read**: Open current exercise file `src/lib.rs`, read documentation to understand concepts
-3. **Code**: Find `todo!()` markers, complete code according to comment hints
-4. **Save**: After saving file, CLI automatically re-runs tests
-5. **Pass**: After passing tests, automatically jump to next exercise; press `h` to view hints anytime
-
-## Submitting Scores
-
-Push to the `main` branch of your repository to trigger the scoring pipeline. GitHub Actions will automatically run all tests, calculate your score (out of 100), and upload it to the OpenCamp leaderboard.
-
-1. Accept the GitHub Classroom assignment link — this creates your personal repository
-2. Complete exercises locally or in **GitHub Codespaces** (click "Code" > "Codespaces" > "Create")
-3. Commit and push your changes to `main`
-4. Check the "Actions" tab to see your score
-
-## Notes
-
-- Some exercises (e.g., Module 2 syscall wrapper, Module 4 assembly) require a **Linux** environment; Module 4 only supports **riscv64**
-- It is recommended to complete exercises in module order; within each module, exercises progress from easy to advanced
-
-## License
-
-MIT
+上游源码提交：`1196ac363c2cba1dcd7f33cf584b5d746f396ffd`。保留原有实验源码、练习题和许可证。
